@@ -61,7 +61,6 @@ lineReader.on("line", function (line) {
         }
         const char = reversed[j];
         string = char + string;
-        console.log('string', string);
         for (let i = 0; i < Object.keys(letters).length; i++) {
             const key = Object.keys(letters)[i];
             if (string.indexOf(key) >= 0) {
