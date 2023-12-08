@@ -5,12 +5,13 @@ const filename = 'input.txt';
 const inputStream = fs.createReadStream(filename);
 
 const limit = {
-    "red": 12,
-    "green": 13,
-    "blue": 14,
+    red: 12,
+    green: 13,
+    blue: 14,
 }
 
 let sum = 0;
+let sum2 = 0;
 
 var lineReader = readline.createInterface({
     input: inputStream,
@@ -64,22 +65,49 @@ const parseLine = (line) => {
 
 const analyzeGame = (game) => {
     if (game.red <= limit.red && game.green <= limit.green && game.blue <= limit.blue) {
-        return game.id;
+        return game;
     } else {
         return null;
     }
 }
 
-lineReader.on("line", function (line) {
+const getPower = (game) => {
+    return game.red * game.green * game.blue;
+}
+
+const partOne = (line) => {
     const game = parseLine(line);
     const result = analyzeGame(game);
 
     if (result) {
-        sum += Number(result);
+        sum += Number(result.id);
     }
+}
+
+const partTwo = (line) => {
+    const game = parseLine(line);
+
+    if (game) {
+        const power = getPower(game);
+        sum2 += Number(power);
+    }
+}
+
+const partOneLogger = () => {
+    console.log(`The sum of the IDs of the games that can be played is ${sum}`);
+}
+
+const partTwoLogger = () => {
+    console.log(`The sum of the power of the games that can be played is ${sum2}`);
+}
+
+lineReader.on("line", function (line) {
+    partOne(line);
+    partTwo(line);
 });
 
 
 lineReader.on("close", function () {
-    console.log(sum);
+    partOneLogger();
+    partTwoLogger();
 });
